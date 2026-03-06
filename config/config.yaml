@@ -1,0 +1,23 @@
+# nuScenes 3D 检测配置
+model:
+  name: "CenterNet3D"
+  num_classes: 10
+  backbone: "dla34"  # 建议后续替换为实际的 DLA-34
+  head_conv: 256
+
+dataset:
+  version: "v1.0-mini"
+  data_root: "/Users/kori/Data/nuscenes" # 请修改为您本地的 nuScenes 路径
+  img_size: [448, 800]
+  batch_size: 4
+  num_workers: 4
+
+train:
+  lr: 0.0001
+  epochs: 100
+  weight_decay: 0.00001
+  save_dir: "./checkpoints"
+
+# nuScenes 10类检测定义
+classes: ['car', 'truck', 'bus', 'trailer', 'construction_vehicle', 
+          'pedestrian', 'motorcycle', 'bicycle', 'traffic_cone', 'barrier']
