@@ -1,0 +1,56 @@
+dataset:
+  dataroot: data/v1.0-mini
+  version: v1.0-mini
+  train_split: train
+  val_split: val
+  camera_channels:
+    - CAM_FRONT
+  radar_channels:
+    - RADAR_FRONT
+    - RADAR_FRONT_LEFT
+    - RADAR_FRONT_RIGHT
+    - RADAR_BACK_LEFT
+    - RADAR_BACK_RIGHT
+  image_size: [512, 896]
+  output_stride: 4
+  max_objects: 64
+  radar_sweeps: 4
+  num_workers: 0
+
+model:
+  image_channels: 3
+  radar_channels: 5
+  width: 64
+  head_channels: 128
+  downsample: 4
+  topk: 100
+  score_threshold: 0.15
+
+training:
+  batch_size: 4
+  epochs: 12
+  learning_rate: 0.0002
+  weight_decay: 0.01
+  grad_clip_norm: 5.0
+  amp: true
+  device: cuda
+  seed: 42
+  log_every: 10
+  output_dir: outputs/centerfusion
+  resume_from: null
+
+loss:
+  heatmap: 1.0
+  offset: 1.0
+  depth: 1.0
+  size2d: 0.5
+  dim3d: 1.0
+  rotation: 0.5
+  velocity: 0.2
+
+evaluation:
+  checkpoint: outputs/centerfusion/best.ckpt
+  output_json: outputs/centerfusion/predictions.json
+  batch_size: 2
+  official_eval: false
+  split: val

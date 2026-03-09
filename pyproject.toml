@@ -1,17 +1,32 @@
+[build-system]
+requires = ["hatchling>=1.27.0"]
+build-backend = "hatchling.build"
+
 [project]
 name = "fusion"
 version = "0.1.0"
-description = "Add your description here"
+description = "Center-based camera and radar fusion baseline for nuScenes"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "numpy>=2.4.2",
-    "nuscenes-devkit>=1.1.11",
-    "opencv-python>=4.13.0.92",
-    "pyquaternion>=0.9.9",
-    "pyyaml>=6.0.3",
+    "numpy>=1.26,<2.0",
+    "nuscenes-devkit>=1.2.0",
+    "pillow>=11.3.0",
+    "pyyaml>=6.0.2",
     "torch>=2.10.0",
-    "torchaudio>=2.10.0",
-    "torchvision>=0.25.0",
-    "tqdm>=4.67.3",
+    "tqdm>=4.67.1",
 ]
+
+[project.scripts]
+fusion = "fusion.cli:main"
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu128" }
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/fusion"]
