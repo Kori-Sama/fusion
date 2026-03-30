@@ -210,15 +210,17 @@ class BevViewer:
                 if color_source is None:
                     color_source = radar_plot
 
-            if self.colorbar is not None:
-                self.colorbar.remove()
-                self.colorbar = None
             if color_source is not None:
-                self.colorbar = self.fig.colorbar(color_source, ax=self.ax, pad=0.01)
+                if self.colorbar is None:
+                    self.colorbar = self.fig.colorbar(
+                        color_source, ax=self.ax, pad=0.01
+                    )
+                else:
+                    self.colorbar.update_normal(color_source)
+                self.colorbar.ax.set_visible(True)
                 self.colorbar.set_label("Range (m)")
         elif self.colorbar is not None:
-            self.colorbar.remove()
-            self.colorbar = None
+            self.colorbar.ax.set_visible(False)
 
         if self.args.show_radar_velocity and radar_xyz.shape[0] > 0:
             count = radar_xyz.shape[0]

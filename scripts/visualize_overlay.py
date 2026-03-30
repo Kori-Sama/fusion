@@ -216,15 +216,17 @@ class OverlayViewer:
                 if color_source is None:
                     color_source = radar_plot
 
-            if self.colorbar is not None:
-                self.colorbar.remove()
-                self.colorbar = None
             if color_source is not None:
-                self.colorbar = self.fig.colorbar(color_source, ax=self.ax, pad=0.01)
+                if self.colorbar is None:
+                    self.colorbar = self.fig.colorbar(
+                        color_source, ax=self.ax, pad=0.01
+                    )
+                else:
+                    self.colorbar.update_normal(color_source)
+                self.colorbar.ax.set_visible(True)
                 self.colorbar.set_label("Depth (m)")
         elif self.colorbar is not None:
-            self.colorbar.remove()
-            self.colorbar = None
+            self.colorbar.ax.set_visible(False)
 
         legend_handles = [
             self.Line2D([0], [0], marker=".", color="w", label="LiDAR", markerfacecolor="black", markersize=8),
